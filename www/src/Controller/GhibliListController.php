@@ -11,26 +11,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class GhibliListController extends AbstractController
 {
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger =$logger;
-    }
-
     /**
      * @Route("/ghibli/list", name="ghibli_list")
      */
 
-    public function listAction(Request $request)
+    public function listAction(Request $request, LoggerInterface $logger)
     {
         $title = $request->get('title', 'Totoro');
 
-        $this->logger->info('List action called');
+        $logger->info('List action called 2');
         $response = new JsonResponse();
 
         $response->setData(
