@@ -1,0 +1,8 @@
+www/.env
+/.vscode
+/data/*
+/logs/*
+.DS_Store
+.idea
+.env
+.env.dist
