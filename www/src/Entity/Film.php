@@ -3,10 +3,17 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get", "post"},
+ *     itemOperations={
+ *     "get"={},
+ *     "put",
+ *     "delete"}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\FilmRepository")
  */
 class Film
@@ -24,9 +31,20 @@ class Film
     private $title;
 
     /**
+     * A little description for the film
      * @ORM\Column(type="string", length=512)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -55,6 +73,23 @@ class Film
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getCreatedAtAgo(): string
+    {
+        return Carbon::instance($this->getCreatedAt())->diffForHumans();
     }
 
 }

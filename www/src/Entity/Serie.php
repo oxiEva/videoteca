@@ -6,7 +6,11 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={"get", "post"},
+ *     itemOperations={"put", "patch",
+ *     "get"={"path"="/i❤️serie/{id}"}},
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\SerieRepository")
  */
 class Serie
