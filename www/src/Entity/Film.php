@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -39,6 +40,12 @@ class Film
     /**
      * A little description for the film
      * @ORM\Column(type="string", length=512)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=2,
+     *     max=500,
+     *     maxMessage="Describe the film in 500 chars or less"
+     * )
      * @Groups({"film_listing:read"})
      */
     private $description;
