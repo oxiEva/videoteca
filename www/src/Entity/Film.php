@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
@@ -14,7 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  *     itemOperations={
  *     "get"={},
  *     "put",
- *     "delete"}
+ *     "delete"},
+ *     shortName="Films",
+ *     normalizationContext={"groups"={"film_listing:read"}, "swagger_definition_name"="Read"}
  * )
  * @ORM\Entity(repositoryClass="App\Repository\FilmRepository")
  */
@@ -29,12 +32,14 @@ class Film
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"film_listing:read"})
      */
     private $title;
 
     /**
      * A little description for the film
      * @ORM\Column(type="string", length=512)
+     * @Groups({"film_listing:read"})
      */
     private $description;
 
@@ -77,6 +82,11 @@ class Film
         return $this;
     }
 
+    /**
+     * How long ago in text that this cheese listing was added.
+     *
+     * @Groups("film_listing:read")
+     */
     public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
