@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -43,6 +45,7 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"user:write"})
      */
     private $password;
 
@@ -52,6 +55,16 @@ class User implements UserInterface
      * @Assert\NotBlank()
      */
     private $username;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Film", mappedBy="owner")
+     */
+    private $filmsListing;
+
+    public function __construct()
+    {
+        $this->filmsListing = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,6 +147,37 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Film[]
+     */
+    public function getFilmsListing(): Collection
+    {
+        return $this->filmsListing;
+    }
+
+    public function addFilmsListing(Film $filmsListing): self
+    {
+        if (!$this->filmsListing->contains($filmsListing)) {
+            $this->filmsListing[] = $filmsListing;
+            $filmsListing->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilmsListing(Film $filmsListing): self
+    {
+        if ($this->filmsListing->contains($filmsListing)) {
+            $this->filmsListing->removeElement($filmsListing);
+            // set the owning side to null (unless already changed)
+            if ($filmsListing->getOwner() === $this) {
+                $filmsListing->setOwner(null);
+            }
+        }
 
         return $this;
     }

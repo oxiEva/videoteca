@@ -55,6 +55,13 @@ class Film
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="filmsListing")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"films_listing:read", "films_listing:write"})
+     */
+    private $owner;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -109,6 +116,18 @@ class Film
     public function getCreatedAtAgo(): string
     {
         return Carbon::instance($this->getCreatedAt())->diffForHumans();
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
     }
 
 }
