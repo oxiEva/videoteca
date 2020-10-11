@@ -14,7 +14,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *     collectionOperations={"get", "post"},
  *     itemOperations={
- *     "get"={},
+ *     "get"={
+ *              "normalization_context"={"groups"={"film_listing:read", "film_listing:item:get"}},
+ *          },
  *     "put",
  *     "delete"},
  *     shortName="Films",
@@ -33,7 +35,7 @@ class Film
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"film_listing:read"})
+     * @Groups({"film_listing:read", "user:read"})
      */
     private $title;
 
@@ -58,7 +60,8 @@ class Film
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="filmsListing")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"films_listing:read", "films_listing:write"})
+     * @Assert\Valid()
+     * @Groups({"film_listing:read", "film_listing:write"})
      */
     private $owner;
 

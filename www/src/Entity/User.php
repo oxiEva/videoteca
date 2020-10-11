@@ -51,13 +51,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({"user:read", "user:write", "film_listing:item:get", "film_listing:write"})
      * @Assert\NotBlank()
      */
     private $username;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Film", mappedBy="owner")
+     * @Groups("user:read")
      */
     private $filmsListing;
 
