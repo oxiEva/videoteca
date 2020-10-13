@@ -10,15 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 final class HomeController extends AbstractController
 {
     /**
-     * @Route("/test", name="hi_name")
+     * @Route("/", name="home")
      */
 
-    public function hi()
+    public function homeController(): Response
     {
-        $name = 'EVA';
-
-        return  new Response(
-            '<html><body>Hello my friend: '.$name.'</body></html>'
-        );
+        return $this->render('home/base.html.twig');
     }
 }
