@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -17,6 +17,11 @@ class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="app_register")
+     * @param MailerInterface $mailer
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return Response
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
     public function register(MailerInterface $mailer, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -39,13 +44,13 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
             $email = (new TemplatedEmail())
-                ->from('director@example.cat')
-                ->to($user->getEmail())
+                ->from(new Address('comunication@videoteca.cat', 'Videoteca 🎬'))
+                ->to(new Address($user->getEmail(), $user->getUsername()))
                 ->subject("📽️ Welcome to Videoteca!!! 🎬")
                 ->htmlTemplate('email/welcome.html.twig')
                 ->context(
                     [
-                        'user' => $user
+                        //'user' => $user
                     ]
                 )
             ;
