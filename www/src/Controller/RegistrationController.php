@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,11 +38,17 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from('director@example.cat')
                 ->to($user->getEmail())
-                ->subject("Welcome to Videoteca!!! 🎬")
-                ->text("Nice to meet you {$user->getUsername()}");
+                ->subject("📽️ Welcome to Videoteca!!! 🎬")
+                ->htmlTemplate('email/welcome.html.twig')
+                ->context(
+                    [
+                        'user' => $user
+                    ]
+                )
+            ;
 
             $mailer->send($email);
 
