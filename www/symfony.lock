@@ -113,6 +113,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "league/html-to-markdown": {
+        "version": "4.10.0"
+    },
     "monolog/monolog": {
         "version": "2.0.2"
     },
