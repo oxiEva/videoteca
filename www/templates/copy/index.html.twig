@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Copy index{% endblock %}
+
+{% block body %}
+    <h1>Copy index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FilmId</th>
+                <th>Price</th>
+                <th>Language</th>
+                <th>Status</th>
+                <th>DateOfSale</th>
+                <th>CreationDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for copy in copies %}
+            <tr>
+                <td>{{ copy.id }}</td>
+                <td>{{ copy.filmId }}</td>
+                <td>{{ copy.price }}</td>
+                <td>{{ copy.language }}</td>
+                <td>{{ copy.status }}</td>
+                <td>{{ copy.dateOfSale ? copy.dateOfSale|date('Y-m-d') : '' }}</td>
+                <td>{{ copy.creationDate ? copy.creationDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('copy_show', {'id': copy.id}) }}">show</a>
+                    <a href="{{ path('copy_edit', {'id': copy.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('copy_new') }}">Create new</a>
+{% endblock %}
