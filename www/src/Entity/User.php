@@ -62,9 +62,15 @@ class User implements UserInterface
      */
     private $filmsListing;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Copy", mappedBy="vendor")
+     */
+    private $copies;
+
     public function __construct()
     {
         $this->filmsListing = new ArrayCollection();
+        $this->copies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +183,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($filmsListing->getOwner() === $this) {
                 $filmsListing->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Copy[]
+     */
+    public function getCopies(): Collection
+    {
+        return $this->copies;
+    }
+
+    public function addCopy(Copy $copy): self
+    {
+        if (!$this->copies->contains($copy)) {
+            $this->copies[] = $copy;
+            $copy->setVendor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCopy(Copy $copy): self
+    {
+        if ($this->copies->contains($copy)) {
+            $this->copies->removeElement($copy);
+            // set the owning side to null (unless already changed)
+            if ($copy->getVendor() === $this) {
+                $copy->setVendor(null);
             }
         }
 
