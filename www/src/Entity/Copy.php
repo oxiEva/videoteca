@@ -19,6 +19,11 @@ class Copy
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $title;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $filmId;
@@ -54,9 +59,23 @@ class Copy
      */
     private $vendor;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
     }
 
     public function getFilmId(): ?int
@@ -141,5 +160,10 @@ class Copy
         $this->vendor = $vendor;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
     }
 }

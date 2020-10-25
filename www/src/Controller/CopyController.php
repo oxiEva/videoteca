@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Copy;
+use App\Entity\User;
 use App\Form\CopyType;
 use App\Repository\CopyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
