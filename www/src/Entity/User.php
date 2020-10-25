@@ -51,7 +51,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"user:read", "user:write", "film_listing:item:get", "film_listing:write"})
+     * @Groups({"user:read", "user:write", "film_listing:item:get", "film_listing:write","copy:read", "copy:write" })
      * @Assert\NotBlank()
      */
     private $username;
@@ -218,5 +218,10 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->username;
     }
 }
