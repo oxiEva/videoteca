@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Copy;
+use App\Entity\Film;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -16,7 +17,10 @@ class CopyType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('filmId')
+            //Convert this filed in autocomplete field
+            ->add('originalFilm', EntityType::class,array(
+                'class' => Film::class
+            ))
             ->add('price')
             ->add('language', ChoiceType::class, [
                 'choices' => [

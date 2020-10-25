@@ -26,11 +26,6 @@ class Copy
     /**
      * @ORM\Column(type="integer")
      */
-    private $filmId;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
     private $price;
 
     /**
@@ -59,6 +54,12 @@ class Copy
      */
     private $vendor;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Film", inversedBy="copies")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $originalFilm;
+
 
 
     public function getId(): ?int
@@ -74,18 +75,6 @@ class Copy
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getFilmId(): ?int
-    {
-        return $this->filmId;
-    }
-
-    public function setFilmId(int $filmId): self
-    {
-        $this->filmId = $filmId;
 
         return $this;
     }
@@ -158,6 +147,18 @@ class Copy
     public function setVendor(?User $vendor): self
     {
         $this->vendor = $vendor;
+
+        return $this;
+    }
+
+    public function getOriginalFilm(): ?Film
+    {
+        return $this->originalFilm;
+    }
+
+    public function setOriginalFilm(?Film $originalFilm): self
+    {
+        $this->originalFilm = $originalFilm;
 
         return $this;
     }

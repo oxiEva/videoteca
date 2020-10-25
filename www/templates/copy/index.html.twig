@@ -9,8 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Title</th>
-                <th>FilmId</th>
+                <th>Original </th>
                 <th>Price</th>
                 <th>Language</th>
                 <th>Status</th>
@@ -26,8 +25,7 @@
         {% for copy in copies %}
             <tr>
                 <td>{{ copy.id }}</td>
-                <td>{{ copy.title }}</td>
-                <td>{{ copy.filmId }}</td>
+                <td>{{ copy.originalFilm.title }}</td>
                 <td>{{ copy.price }}</td>
                 <td>{{ copy.language }}</td>
                 <td>{{ copy.status }}</td>

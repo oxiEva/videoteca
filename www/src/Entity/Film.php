@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Carbon\Carbon;
 use DateTimeImmutable;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -65,9 +67,15 @@ class Film
      */
     private $owner;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Copy", mappedBy="originalFilm")
+     */
+    private $copies;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+        $this->copies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,4 +141,39 @@ class Film
         return $this;
     }
 
+    /**
+     * @return Collection|Copy[]
+     */
+    public function getCopies(): Collection
+    {
+        return $this->copies;
+    }
+
+    public function addCopy(Copy $copy): self
+    {
+        if (!$this->copies->contains($copy)) {
+            $this->copies[] = $copy;
+            $copy->setOriginalFilm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCopy(Copy $copy): self
+    {
+        if ($this->copies->contains($copy)) {
+            $this->copies->removeElement($copy);
+            // set the owning side to null (unless already changed)
+            if ($copy->getOriginalFilm() === $this) {
+                $copy->setOriginalFilm(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+            return $this->title;
+    }
 }
