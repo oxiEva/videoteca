@@ -9,12 +9,16 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Title</th>
                 <th>FilmId</th>
                 <th>Price</th>
                 <th>Language</th>
                 <th>Status</th>
                 <th>DateOfSale</th>
                 <th>CreationDate</th>
+                <th>User vendor</th>
+                <th>    </th>
+                <th>    </th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,12 +26,16 @@
         {% for copy in copies %}
             <tr>
                 <td>{{ copy.id }}</td>
+                <td>{{ copy.title }}</td>
                 <td>{{ copy.filmId }}</td>
                 <td>{{ copy.price }}</td>
                 <td>{{ copy.language }}</td>
                 <td>{{ copy.status }}</td>
                 <td>{{ copy.dateOfSale ? copy.dateOfSale|date('Y-m-d') : '' }}</td>
-                <td>{{ copy.creationDate ? copy.creationDate|date('Y-m-d') : '' }}</td>
+                <td>{{ copy.creationDate ? copy.creationDate|date('Y-m-d') : 'now' }}</td>
+                <td>{{ copy.vendor.username}}</td>
+                <td> </td>
+                <td> </td>
                 <td>
                     <a href="{{ path('copy_show', {'id': copy.id}) }}">show</a>
                     <a href="{{ path('copy_edit', {'id': copy.id}) }}">edit</a>
