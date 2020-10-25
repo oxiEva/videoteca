@@ -6,6 +6,7 @@ use App\Entity\Copy;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,14 +18,30 @@ class CopyType extends AbstractType
             ->add('title')
             ->add('filmId')
             ->add('price')
-            ->add('language')
-            ->add('status')
+            ->add('language', ChoiceType::class, [
+                'choices' => [
+                    'English' => 'en',
+                    'Spanish' => 'es',
+                    'Catalan' => 'cat',
+                    'Germany' => 'ge',
+                    'Bork' => 'muppets',
+                    'Pirate' => 'arr',
+                ],
+                'preferred_choices' => ['en', 'arr'],])
+            ->add('status', ChoiceType::class, [
+                'choices' => [
+                    'New' => 'New',
+                    'Perfect' => 'Perfect',
+                    'Small stroke' => 'Small stroke',
+                    'Without box' => 'Without box',
+                    'Other' => 'Other',
+                ],
+            ])
             ->add('dateOfSale')
             ->add('creationDate')
             ->add('vendor', EntityType::class, array(
                 'class' => User::class
-            ))
-        ;
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
