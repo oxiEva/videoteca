@@ -3,19 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\Copy;
-use App\Entity\User;
 use App\Form\CopyType;
 use App\Repository\CopyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 /**
  * @Route("/copy")
  */
 class CopyController extends AbstractController
 {
+    private $copyRepository;
+
+    public function __construct(CopyRepository $copyRepository)
+    {
+        $this->copyRepository = $copyRepository;
+    }
     /**
      * @Route("/", name="copy_index", methods={"GET"})
      */
@@ -24,6 +29,12 @@ class CopyController extends AbstractController
         return $this->render('copy/index.html.twig', [
             'copies' => $copyRepository->findAll(),
         ]);
+    }
+    /**
+     * @Route("/", name="customAction")
+     */
+    public function customAction(){
+        return true;
     }
 
     /**
@@ -91,5 +102,20 @@ class CopyController extends AbstractController
         }
 
         return $this->redirectToRoute('copy_index');
+    }
+
+    /**
+     * @Route("/counter/{id}", name="copies_count", methods={"GET"})
+     *
+     */
+    public function getCopiesCount($id): JsonResponse
+    {
+        $copies = $this->copyRepository->findOneBy(['id' => $id]);
+        $data = [
+            'id' => $copies->getId(),
+            'price' => $copies->getPrice(),
+        ];
+
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 }

@@ -4,10 +4,30 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\CopyController;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\CopyRepository")
+ * @ApiResource(itemOperations={
+ *
+ *     "put",
+ *     "delete",
+ *     "customAction"={
+ *         "method"="",
+ *         "path"="/custom",
+ *         "controller"=CopyController::class,
+ *     },
+ *     "copy"={
+ *         "method"="POST",
+ *         "path"="/new",
+ *         "controller"=CopyController::class,
+ *     },
+ *     "copies_count" ={
+ *          "method"="GET",
+ *          "path" ="/counter/{id}",
+ *          "controller"=CopyController::class,
+ *     }}
+ *     )
  */
 class Copy
 {
@@ -59,8 +79,6 @@ class Copy
      * @ORM\JoinColumn(nullable=false)
      */
     private $originalFilm;
-
-
 
     public function getId(): ?int
     {
