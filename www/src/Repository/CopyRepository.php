@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Copy;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -18,6 +19,55 @@ class CopyRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Copy::class);
     }
+
+    // /**
+    //  * @return Copy[] Returns an array of Copy objects
+    //  */
+
+    public function findLast6Copies()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('c')
+            ->from(Copy::class, 'c')
+            ->add('orderBy', 'c.creationDate DESC')
+            ->setMaxResults(6);
+            //->where('c.vendor = :user')
+            // ->andWhere('p.published = :published')
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getCopiesByUser(User $user)
+    {
+        $limit = 10;
+        $offset = 0;
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('c')
+            ->from(Copy::class, 'c')
+            ->add('orderBy', 'c.creationDate DESC')
+            ->where('c.vendor = :user')
+            // ->andWhere('p.published = :published')
+            ->setParameters(['user' => $user])
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
+
+    public function getCopiesForSale()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('c')
+            ->from(Copy::class, 'c')
+            //->add('orderBy', 'c.creationDate DESC')
+            ->where('c.dateOfSale is NULL');
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
+
 
     // /**
     //  * @return Copy[] Returns an array of Copy objects

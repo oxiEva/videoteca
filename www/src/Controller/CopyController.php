@@ -15,12 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CopyController extends AbstractController
 {
-    private $copyRepository;
-
-    public function __construct(CopyRepository $copyRepository)
-    {
-        $this->copyRepository = $copyRepository;
-    }
     /**
      * @Route("/", name="copy_index", methods={"GET"})
      */
@@ -102,20 +96,5 @@ class CopyController extends AbstractController
         }
 
         return $this->redirectToRoute('copy_index');
-    }
-
-    /**
-     * @Route("/counter/{id}", name="copies_count", methods={"GET"})
-     *
-     */
-    public function getCopiesCount($id): JsonResponse
-    {
-        $copies = $this->copyRepository->findOneBy(['id' => $id]);
-        $data = [
-            'id' => $copies->getId(),
-            'price' => $copies->getPrice(),
-        ];
-
-        return new JsonResponse($data, Response::HTTP_OK);
     }
 }
