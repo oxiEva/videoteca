@@ -75,10 +75,9 @@ class Copy
     private $vendor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Film", inversedBy="copies")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Film", inversedBy="Units")
      */
-    private $originalFilm;
+    private $film;
 
     public function getId(): ?int
     {
@@ -169,14 +168,14 @@ class Copy
         return $this;
     }
 
-    public function getOriginalFilm(): ?Film
+    public function getFilm(): ?Film
     {
-        return $this->originalFilm;
+        return $this->film;
     }
 
-    public function setOriginalFilm(?Film $originalFilm): self
+    public function setFilm(?Film $film): self
     {
-        $this->originalFilm = $originalFilm;
+        $this->film = $film;
 
         return $this;
     }
@@ -185,4 +184,6 @@ class Copy
     {
         return $this->title;
     }
+
 }
+

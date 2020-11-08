@@ -60,19 +60,20 @@ class Film
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="filmsListing")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\Valid()
-     * @Groups({"film_listing:read", "film_listing:write"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Copy", mappedBy="originalFilm")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $owner;
+    private $copies;
 
-
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Copy", mappedBy="film")
+     */
+    private $units;
 
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
-        $this->copies = new ArrayCollection();
+        $this->units = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,29 +127,39 @@ class Film
         return Carbon::instance($this->getCreatedAt())->diffForHumans();
     }
 
-    public function getOwner(): ?User
+    public function __toString(): string
     {
-        return $this->owner;
-    }
-
-    public function setOwner(?User $owner): self
-    {
-        $this->owner = $owner;
-
-        return $this;
+            return $this->title;
     }
 
     /**
      * @return Collection|Copy[]
      */
-    public function getCopies(): Collection
+    public function getUnits(): Collection
     {
-        return $this->copies;
+        return $this->units;
     }
 
-
-    public function __toString(): string
+    public function addUnit(Copy $unit): self
     {
-            return $this->title;
+        if (!$this->units->contains($unit)) {
+            $this->units[] = $unit;
+            $unit->setFilm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUnit(Copy $unit): self
+    {
+        if ($this->units->contains($unit)) {
+            $this->units->removeElement($unit);
+            // set the owning side to null (unless already changed)
+            if ($unit->getFilm() === $this) {
+                $unit->setFilm(null);
+            }
+        }
+
+        return $this;
     }
 }
