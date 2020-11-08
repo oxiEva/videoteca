@@ -18,7 +18,7 @@ class CopyType extends AbstractType
         $builder
             ->add('title')
             //Convert this filed in autocomplete field
-            ->add('originalFilm', EntityType::class,array(
+            ->add('film', EntityType::class,array(
                 'class' => Film::class
             ))
             ->add('price')
