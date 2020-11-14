@@ -56,22 +56,27 @@ class AppFixtures extends Fixture
             ->setCreatedAt(new \DateTime('now'));*/
 
         //$manager->persist($film);
-        $user = new User();
+        /*$user = new User();
         $user->setEmail('default@videoteca.cat')
             ->setRoles((array)'ROLE_ADMIN')
             ->setPassword('admin44')
             ->setUsername('administrator');
 
         $manager->persist($user);
-        $manager->flush();
+        $manager->flush();*/
 
         /*$copy = new Copy();
-        $copy->setTitle()
-            ->setVendor()
+        $copy->setTitle('Room')
+            ->setVendor(User::class->setId(7))
             ->setPrice(rand(5, 30))
-            ->setStatus()
-            ->setDateOfSale()
-            ->setCreationDate();*/
+            ->setStatus('New')
+            ->setDateOfSale(null)
+            ->setCreationDate(new \DateTime())
+            ->setLanguage('en')
+            ->setFilm(new Film())
+        ;
+        $manager->persist($copy);
+        $manager->flush();*/
         // $manager->flush();
     }
 }
