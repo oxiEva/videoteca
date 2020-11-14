@@ -16,6 +16,7 @@ services:
       - ./www/.env:/var/www/html/.env
       - ./config/php/php.ini:/usr/local/etc/php/php.ini
       - ./config/vhosts:/etc/apache2/sites-enabled
+      - ./data/composer_cache:/.composer/cache/files/
       - ${LOG_DIR-./logs/apache2}:/var/log/apache2
   mysql:
     build:
