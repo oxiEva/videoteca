@@ -75,7 +75,8 @@ class Copy
     private $vendor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Film", inversedBy="Units")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Film", inversedBy="units")
+     * @ORM\JoinColumn(name="film_id", referencedColumnName="id", nullable=true)
      */
     private $film;
 

@@ -60,12 +60,6 @@ class Film
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Copy", mappedBy="originalFilm")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $copies;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Copy", mappedBy="film")
      */
     private $units;
