@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Film;
+use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Entity\Copy;
 use App\Repository\CopyRepository;
@@ -21,7 +22,6 @@ final class HomeController extends AbstractController
     {
         $films = $this->getDoctrine()->getRepository(Film::class)->findAll();
         $copies= $copyRepository->findLast6Copies();
-        //var_dump($copies);die('pepe');
         $form = $this->createForm(RegistrationFormType::class);
 
         $response= $this->render('home/base.html.twig',
