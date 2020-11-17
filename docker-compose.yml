@@ -4,7 +4,7 @@ services:
   webserver:
     build: 
       context: ./bin/webserver
-    container_name: 'video_7.3.x-webserver'
+    container_name: 'video_7.4.x-webserver'
     restart: 'always'
     ports:
       - "${PROJECTPORTPREFIX}${HOST_MACHINE_UNSECURE_HOST_PORT}:80"
