@@ -4,7 +4,7 @@ services:
   webserver:
     build: 
       context: ./bin/webserver
-    container_name: 'video_7.3x-webserver'
+    container_name: 'video_7.4x-webserver'
     restart: 'always'
     ports:
       - "${PROJECTPORTPREFIX}${HOST_MACHINE_UNSECURE_HOST_PORT}:80"
@@ -16,8 +16,10 @@ services:
       - ./www/.env:/var/www/html/.env
       - ./config/php/php.ini:/usr/local/etc/php/php.ini
       - ./config/vhosts:/etc/apache2/sites-enabled
-      - ./data/composer_cache:/.composer/cache/files/
+      - ./data/composer_cache:/.composer/cache/
       - ${LOG_DIR-./logs/apache2}:/var/log/apache2
+    extra_hosts:
+      localhost: 172.19.0.5
   mysql:
     build:
       context: "./bin/${DATABASE}"
